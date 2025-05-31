@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eid Mubarak 🎉</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0 0 100px; /* bottom space for ad */
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f0036, #2b5876);
+      color: white;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    img {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 16px;
+      margin-top: 20px;
+    }
+
+    .container {
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      margin-top: 20px;
+    }
+
+    .greeting {
+      font-size: 1.4em;
+      margin: 15px 0;
+      background: linear-gradient(90deg, #ffe259, #ffa751);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      margin-bottom: 15px;
+      font-size: 1em;
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 1em;
+      border: 2px solid #00ffcc;
+      color: #00ffcc;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px 0;
+    }
+
+    .btn:hover {
+      background: #00ffcc;
+      color: #000;
+      box-shadow: 0 0 12px #00ffcc;
+    }
+
+    #customMessage {
+      margin-top: 15px;
+      font-size: 1.2em;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    #shareBtn {
+      display: none;
+      background-color: #25D366;
+      color: white;
+      border: none;
+    }
+
+    .audio-control {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid white;
+      color: white;
+      font-size: 1.3em;
+      padding: 8px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    #adWrapper {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgAudio" src="song.mp3" loop></audio>
+  <button id="audioToggle" class="audio-control" onclick="toggleMute()" title="Mute/Unmute">🔊</button>
+
+  <img src="eid.gif" alt="Eid Greeting" />
+
+  <div class="container">
+    <div class="greeting">✨ Eid Mubarak! May this Eid bring joy, peace, and prosperity to all! ✨</div>
+
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+
+    <button class="btn" onclick="generateWish()">🎁 Generate Eid Wish</button>
+
+    <div id="customMessage"></div>
+
+    <button class="btn" id="shareBtn" onclick="shareOnWhatsApp()">📤 Share on WhatsApp</button>
+  </div>
+
+  <!-- Ad Container at Bottom -->
+  <div id="adWrapper">
+    <div id="adContainer"></div>
+  </div>
+
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'b9f9650e81a5f89fce07e6abeb35d8f0',
+      'format' : 'iframe',
+      'height' : 50,
+      'width' : 320,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//stinklistedtobacco.com/b9f9650e81a5f89fce07e6abeb35d8f0/invoke.js"></script>
+
+  <script>
+    const audio = document.getElementById('bgAudio');
+    const audioToggle = document.getElementById('audioToggle');
+    let isMuted = false;
+
+    // Autoplay with fallback for mobile
+    document.addEventListener('DOMContentLoaded', () => {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.body.addEventListener('click', () => {
+            audio.play().catch(() => {});
+          }, { once: true });
+        });
+      }
+    });
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      audio.muted = isMuted;
+      audioToggle.textContent = isMuted ? '🔇' : '🔊';
+    }
+
+    function generateWish() {
+      const name = document.getElementById('nameInput').value.trim();
+      const message = name 
+        ? `Eid Mubarak from ${name}! 🎉 Wishing you happiness and blessings!`
+        : `Eid Mubarak! 🎉 Wishing you happiness and blessings!`;
+      document.getElementById('customMessage').textContent = message;
+      document.getElementById('shareBtn').style.display = 'inline-block';
+    }
+
+    function shareOnWhatsApp() {
+      const msg = document.getElementById('customMessage').textContent;
+      const url = window.location.href;
+      const fullMessage = `${msg} ${url}`;
+      const encoded = encodeURIComponent(fullMessage);
+      window.open(`https://wa.me/?text=${encoded}`, '_blank');
+    }
+  </script>
+</body>
+</html>
